@@ -1,5 +1,5 @@
-import cors from 'cors';
 import express, { Application } from 'express';
+import cors from 'cors';
 import morgan from 'morgan';
 
 function configExpress(app:Application): void {

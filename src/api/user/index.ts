@@ -17,6 +17,6 @@ router.post('/', handleCreateUser);
 
 router.patch('/:id', handleUpdateUser);
 
-router.delete ('id/:', handleDeleteUser);
+router.delete ('/:id', handleDeleteUser);
 
 export default router;
