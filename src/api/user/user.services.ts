@@ -18,6 +18,11 @@ export function updateUser(id: string, user: DocumentDefinition<Omit<UserDocumen
   return User.findByIdAndUpdate(id, user, {new: true});
 }
 
+export function getUserFilter(filter: FilterQuery<UserDocument>) {
+  const user = User.findOne(filter);
+  return user;
+}
+
 export function deleteUser(id: string) {
   return User.findByIdAndDelete(id);
 }

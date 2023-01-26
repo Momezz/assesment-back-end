@@ -4,7 +4,8 @@ import {
   handleCreateUser,
   handleDeleteUser,
   handleGetUser,
-  handleUpdateUser
+  handleUpdateUser,
+  handleLoginUser
 } from './user.controller';
 
 const router = Router();
@@ -18,5 +19,9 @@ router.post('/', handleCreateUser);
 router.patch('/:id', handleUpdateUser);
 
 router.delete ('/:id', handleDeleteUser);
+
+//login
+//POST /api/users/login
+router.post('/login', handleLoginUser);
 
 export default router;
