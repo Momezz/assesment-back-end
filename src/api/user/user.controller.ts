@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
+
 import {
   getAllUsers,
   getUserById,
   deleteUser,
+  updateUser,
   createUser
 } from "./user.services";
 
@@ -50,11 +52,22 @@ export async function handleCreateUser(
   }
 };
 
-export async function handleUpdateUser(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {};
+export async function handleUpdateUser(req: Request, res: Response) {
+  const { id } = req.params;
+  const data = req.body;
+
+  try {
+    const user = await updateUser(id, data);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found to update" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
 
 export async function handleDeleteUser(
   req: Request,

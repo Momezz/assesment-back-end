@@ -6,7 +6,7 @@ export function getAllUsers() {
 }
 
 export function getUserById(id: string) {
-  const user = User.findById(id);
+  const user = User.findById(id).populate("favorite");
   return user;
 }
 
@@ -16,6 +16,11 @@ export function createUser(user: DocumentDefinition<Omit<UserDocument, 'createdA
 
 export function updateUser(id: string, user: DocumentDefinition<Omit<UserDocument, 'createdAt' | 'updatedAt'>>) {
   return User.findByIdAndUpdate(id, user, {new: true});
+}
+
+export function getUserFilter(filter: FilterQuery<UserDocument>) {
+  const user = User.findOne(filter);
+  return user;
 }
 
 export function deleteUser(id: string) {

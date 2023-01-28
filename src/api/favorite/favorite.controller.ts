@@ -1,4 +1,3 @@
-
 import { Request, Response, NextFunction } from "express";
 import {
   getAllFavorites,
@@ -7,6 +6,7 @@ import {
   updateFavorite,
   deleteFavorite,
 } from "./favorite.services";
+import { AuthRequest } from "../../auth/auth.types";
 
 export async function handleGetAllFavorites(
   req: Request,
@@ -28,7 +28,6 @@ export async function handleGetFavoriteById(
   next: NextFunction
 ) {
   const { id } = req.params;
-
   const favorite = await getFavoriteById(id);
 
   if (!favorite) {
@@ -63,23 +62,21 @@ export async function handleUpdateFavorite(
   if (!favorite) {
     return res.status(404).json({ message: "Favorites not found" });
   }
-
   return res.status(200).json(favorite);
 }
 
 export async function handleDeleteFavorite(
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) {
   const { id } = req.params;
-
   try {
-    const favorite= await deleteFavorite(id);
-    if (!favorite) {
-      return res.status(404).json({ message: "Favorites not found" });
+    const favorite = await deleteFavorite(id);
+    if(!favorite) {
+      return res.status(404).json({message: "Product not found"});
     }
-    return res.status(200).json({ message: "Favorites deleted" });
+    return res.status(200).json({ message: "Product deleted" });
   } catch (error) {
     return res.status(500).json(error);
   }

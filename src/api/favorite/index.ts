@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { isAuthenticated } from "../../auth/auth.services";
 import {
   handleGetAllFavorites,
   handleGetFavoriteById,
@@ -18,6 +19,6 @@ router.post("/", handleCreateFavorite);
 // PATCH /api/favorite/:id
 router.patch('/:id', handleUpdateFavorite);
 // DELETE /api/favorite/:id
-router.delete('/:id', handleDeleteFavorite);
+router.delete('/:id', isAuthenticated, handleDeleteFavorite);
 
 export default router;

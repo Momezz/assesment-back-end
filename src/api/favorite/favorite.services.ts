@@ -6,7 +6,7 @@ export function getAllFavorites() {
 }
 
 export function getFavoriteById(id: string) {
-  return Favorite.findById(id).populate('createdBy');
+  return Favorite.findById(id);
 }
 
 export function createFavorite(
@@ -16,7 +16,7 @@ export function createFavorite(
 
 export function updateFavorite(id: String,
   favorite: DocumentDefinition<Omit<FavoriteDocument, 'createdAt' | 'updatedAt'>>,) {
-  return updateFavorite;
+    return Favorite.findByIdAndUpdate(id, favorite, { new: true });
 }
 
 export function deleteFavorite(id: string){

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { isAuthenticated } from '../../auth/auth.services';
 import {
   handleAllGetUsers,
   handleCreateUser,
@@ -15,8 +16,9 @@ router.get('/:id', handleGetUser);
 
 router.post('/', handleCreateUser);
 
-router.patch('/:id', handleUpdateUser);
+router.patch('/:id', isAuthenticated, handleUpdateUser);
 
-router.delete ('/:id', handleDeleteUser);
+router.delete ('/:id', isAuthenticated, handleDeleteUser);
+
 
 export default router;
