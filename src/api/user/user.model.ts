@@ -1,5 +1,4 @@
 import { Schema, model, Document } from "mongoose";
-import { userProfileType } from "./user.types";
 import bcrypt from "bcryptjs";
 
 export interface UserDocument extends Document {
@@ -9,17 +8,7 @@ export interface UserDocument extends Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
-
-
   comparePassword: (password: string) => Promise<boolean>;
-
-  // por validar
-  emailConfirmToken?: String,
-  emailConfirmExpires?: Date,
-  isActive?:Boolean,
-
-  passwordResetToken?: String,
-  passwordResetExpires?: Date,
 }
 
 const UserSchema = new Schema(
@@ -34,17 +23,17 @@ const UserSchema = new Schema(
       unique: true,
       lowercase: true,
     },
-    emailConfirmToken: String,
-    emailConfirmExpires : Date,
-    isActive:Boolean,
     password: {
       type: String,
       required: true,
     },
-    passwordResetToken: String,
-    passwordResetExpires: Date,
 
+    favorite: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Favorite',
+    }]
   },
+
   {
     timestamps: true,
   }
@@ -64,16 +53,6 @@ UserSchema.pre('save', async function save(next: Function) {
   } catch (error) {
     next(error);
   }
-});
-
-// Virtuals
-UserSchema.virtual('profile').get(function profile() {
-  const {_id, name, email} = this;
-
-  return {
-    _id, name, email
-  };
-
 });
 
 //Methods

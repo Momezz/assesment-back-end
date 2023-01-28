@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import {
   getAllFavorites,
@@ -7,7 +6,7 @@ import {
   updateFavorite,
   deleteFavorite,
 } from "./favorite.services";
-import { Console } from "console";
+import { AuthRequest } from "../../auth/auth.types";
 
 export async function handleGetAllFavorites(
   req: Request,
@@ -29,7 +28,6 @@ export async function handleGetFavoriteById(
   next: NextFunction
 ) {
   const { id } = req.params;
-
   const favorite = await getFavoriteById(id);
 
   if (!favorite) {
@@ -64,31 +62,22 @@ export async function handleUpdateFavorite(
   if (!favorite) {
     return res.status(404).json({ message: "Favorites not found" });
   }
-
   return res.status(200).json(favorite);
 }
 
 export async function handleDeleteFavorite(
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) {
   const { id } = req.params;
-  const token = req.headers?.authorization?.split(' ')[1];
-
-  if(!token) {
-    return res.status(401).json({ message: "Unauthorized" })
-  }
-
   try {
-    jwt.verify(token, 'EL_SECRETO_DE_AMOR');
     const favorite = await deleteFavorite(id);
     if(!favorite) {
       return res.status(404).json({message: "Product not found"});
     }
-    return res.status(200).json({ message: 'Product deleted' });
+    return res.status(200).json({ message: "Product deleted" });
   } catch (error) {
     return res.status(500).json(error);
   }
-
 }
