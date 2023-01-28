@@ -1,29 +1,33 @@
 import { Schema, model } from 'mongoose';
 
 export interface FavoriteDocument extends Document{
-  titleList: String;
-  description: String;
-  link: String;
+  name: String;
+  favorite: Object;
   ceatedAT: Date;
   updateAT: Date;
 }
 
 const FavoriteSchema = new Schema({
-  titleList: {
+  name: {
     type: String,
     required: true,
   },
+  favorite: {
+    type: Object,
+    titleList: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    link: {
+      type: String,
+      required: true,
+    },
+  }
 
-  description: {
-    type: String,
-    required: true,
-  },
-
-  link: {
-    type: String,
-    required: true,
-  },
- 
 }, {
   timestamps: true,
   versionKey: false,
